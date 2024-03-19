@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+  nginx:
+    build:
+      context: ./front
+      dockerfile: dockerfile
+
+    env_file:
+      # Attention selectionne toutes les variables du fichier
+      - .env.local
+
+    environment: 
+      - TEST
+      - DB_PASSWORD
+
+    ports:
+      - 8081:80
+
+    volumes:
+      # - type: bind
+      #   source: ./front/data
+      #   target: /usr/share/nginx/html
+      - ./front/data:/usr/share/nginx/html
+  

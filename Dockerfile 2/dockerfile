@@ -1,0 +1,26 @@
+# pour rajouter un commentaire
+
+ARG version=22.04
+
+FROM ubuntu:${version}
+
+RUN apt-get update \
+&& apt-get install -y ca-certificates curl gnupg \
+&& curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+&& echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+&& apt-get update \
+&& apt-get install nano nodejs -y
+
+ARG ENV=dev
+LABEL author="Rémy"
+LABEL email "rd@gmail.com"
+
+ENV ENV=${ENV}
+ENV MON_NOM=Rémy
+
+#définit le dossier de travail
+WORKDIR /var/www/html/
+
+COPY hello-world.js .
+
+CMD [ "node","hello-world.js" ]

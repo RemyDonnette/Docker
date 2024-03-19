@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  a:
+    image: alpine
+  b:
+    build:
+      context: ./back
+      dockerfile: dockerfile
+      args:
+        - folder=test
+  c:
+    build: 
+      context: ./front
+      dockerfile: dockerfile
+    
