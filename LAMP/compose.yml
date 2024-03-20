@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+
+  # PHP service
+  php:
+    build: "./docker_php"
+    volumes: 
+      - ./app:/var/www/html
+
+  # Apache service
+  apache:
+    build: "./docker_apache"
+    depends_on:
+      - php
+    ports:
+      - "8000:80"
+    volumes:
+      - ./app:/var/www/html
+
+  # MariaDB service 
+  mariadb:
+    image: mariadb:latest
+    # environment:
+    #   - MYSQL_ROOT_PASSWORD
+    #   - MYSQL_PASSWORD
+    #   - MYSQL_ROOT_PASSWORD
+    #   - MYSQL_DATABASE
+    #   - MYSQL_USER
+    #   - MYSQL_PASSWORD
+    #   - MYSQL_HOST
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # BDD graphique
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8001:80"
+    # environment:
+    #   - PMA_HOST=mariadb
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+
+volumes:
+  db_data:
+
+networks:
+  default:
+  lamp:

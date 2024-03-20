@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  a:
+    container_name: alpine1
+    build: 
+      context: ./front
+      dockerfile: dockerfile
+    command: ["ping", "google.fr"]
+
+  b:
+    container_name: alpine2
+    image: alpine
+    command: ["ping", "google.fr"]
+
+networks:
+  default:
+    name: alpinenet
